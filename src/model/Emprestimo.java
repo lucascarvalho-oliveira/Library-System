@@ -1,6 +1,5 @@
 package model;
 
-import java.time.Duration;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +8,7 @@ public class Emprestimo {
     private int id_emprestimo;
     private LocalDate dataEmprestimo;
     private LocalDate dataRetorno;
-    private LocalDate dataEntreque;
+    private LocalDate dataEntrega;
     private double multa;
 
     private Usuario usuarios;
@@ -17,29 +16,14 @@ public class Emprestimo {
 
     public Emprestimo(LocalDate dataEmprestimo, Usuario usuario){
         this.dataEmprestimo = dataEmprestimo;
+        this.dataRetorno = dataEmprestimo.plusDays(10);
 
         this.usuarios = usuario;
         this.exemplares = new ArrayList<>();
     }
 
-    public LocalDate getDataRetorno() {
-        return dataRetorno;
-    }
-
-    public LocalDate getDataEntreque() {
-        return dataEntreque;
-    }
-
-    public LocalDate getDataEmprestimo() {
-        return dataEmprestimo;
-    }
-
-    public double getMulta() {
-        return multa;
-    }
-
-    public void setMulta(double multa) {
-        this.multa = multa;
+    public void adicionarExemplar(Exemplar exemplar){
+        this.exemplares.add(exemplar);
     }
 
     public int getId_emprestimo() {
@@ -50,11 +34,31 @@ public class Emprestimo {
         this.id_emprestimo = id_emprestimo;
     }
 
-    public void setDataHoraEntreque(LocalDate dataHoraEntreque){
-        this.dataEntreque = dataHoraEntreque;
+    public LocalDate getDataEmprestimo() {
+        return dataEmprestimo;
     }
 
-    public void dataRetorno(){
-        dataRetorno = dataEmprestimo.plusDays(10);
+    public LocalDate getDataRetorno() {
+        return dataRetorno;
+    }
+
+    public LocalDate getDataEntrega() {
+        return dataEntrega;
+    }
+
+    public void setDataEntreque(LocalDate dataEntreque){
+        this.dataEntrega = dataEntreque;
+    }
+
+    public double getMulta() {
+        return multa;
+    }
+
+    public void setMulta(double multa) {
+        this.multa = multa;
+    }
+
+    public Usuario getUsuarios() {
+        return usuarios;
     }
 }

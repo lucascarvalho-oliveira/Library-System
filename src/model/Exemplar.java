@@ -4,14 +4,14 @@ import model.enums.Status;
 
 public class Exemplar {
     private int id_exemplar;
-    private int idPatrimonio;
+    private int patrimonio;
     private String localizacao;
 
     private Livro livro;
     private Status status;
 
     public Exemplar(int idPatrimonio, String localizacao, Livro livro, Status status) {
-        this.idPatrimonio = idPatrimonio;
+        this.patrimonio = idPatrimonio;
         this.localizacao = localizacao;
         this.livro = livro;
         this.status = status;
@@ -22,7 +22,7 @@ public class Exemplar {
     }
 
     public int getIdPatrimonio() {
-        return idPatrimonio;
+        return patrimonio;
     }
 
     public int getId_exemplar() {
