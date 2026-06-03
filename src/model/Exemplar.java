@@ -3,7 +3,7 @@ package model;
 import model.enums.Status;
 
 public class Exemplar {
-    private int id_exemplar;
+    private int idExemplar;
     private int patrimonio;
     private String localizacao;
 
@@ -17,19 +17,27 @@ public class Exemplar {
         this.status = status;
     }
 
+    public int getIdExemplar() {
+        return idExemplar;
+    }
+
+    public void setIdExemplar(int idExemplar) {
+        this.idExemplar = idExemplar;
+    }
+
     public String getLocalizacao() {
         return localizacao;
     }
 
-    public int getIdPatrimonio() {
+    public Livro getLivro() {
+        return livro;
+    }
+
+    public int getPatrimonio() {
         return patrimonio;
     }
 
-    public int getId_exemplar() {
-        return id_exemplar;
-    }
-
-    public void setId_exemplar(int id_exemplar) {
-        this.id_exemplar = id_exemplar;
+    public Status getStatus() {
+        return status;
     }
 }

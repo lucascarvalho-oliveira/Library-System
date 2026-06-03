@@ -3,7 +3,7 @@ package model;
 import model.enums.Genero;
 
 public class Livro {
-    private int id_livro;
+    private int idLivro;
     private String titulo;
     private int volume;
     private String editora;
@@ -11,8 +11,7 @@ public class Livro {
     private Genero genero;
     private Autor autor;
 
-    public Livro(int id_livro, String titulo, int volume, String editora, Genero genero, Autor autor) {
-        this.id_livro = id_livro;
+    public Livro(String titulo, int volume, String editora, Genero genero, Autor autor) {
         this.titulo = titulo;
         this.volume = volume;
         this.editora = editora;
@@ -32,11 +31,11 @@ public class Livro {
         return editora;
     }
 
-    public int getId_livro() {
-        return id_livro;
+    public int getIdLivro() {
+        return idLivro;
     }
 
-    public void setId_livro(int id_livro) {
-        this.id_livro = id_livro;
+    public void setIdLivro(int idLivro) {
+        this.idLivro = idLivro;
     }
 }

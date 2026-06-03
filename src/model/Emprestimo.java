@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Emprestimo {
-    private int id_emprestimo;
+    private int idEmprestimo;
     private LocalDate dataEmprestimo;
     private LocalDate dataRetorno;
     private LocalDate dataEntrega;
@@ -26,12 +26,16 @@ public class Emprestimo {
         this.exemplares.add(exemplar);
     }
 
-    public int getId_emprestimo() {
-        return id_emprestimo;
+    public List<Exemplar> getExemplares() {
+        return exemplares;
     }
 
-    public void setId_emprestimo(int id_emprestimo) {
-        this.id_emprestimo = id_emprestimo;
+    public int getIdEmprestimo() {
+        return idEmprestimo;
+    }
+
+    public void setIdEmprestimo(int idEmprestimo) {
+        this.idEmprestimo = idEmprestimo;
     }
 
     public LocalDate getDataEmprestimo() {

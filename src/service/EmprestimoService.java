@@ -24,10 +24,10 @@ public class EmprestimoService {
     }
 
     public void calcularMulta(Emprestimo emprestimo){
-        if(emprestimo.getDataEntreque().isEqual(emprestimo.getDataRetorno())){
+        if(emprestimo.getDataEntrega().isEqual(emprestimo.getDataRetorno())){
             emprestimo.setMulta(0.0);
         }else{
-            Duration duracao = Duration.between(emprestimo.getDataRetorno(), emprestimo.getDataEntreque());
+            Duration duracao = Duration.between(emprestimo.getDataRetorno(), emprestimo.getDataEntrega());
 
             long minutosTotais = duracao.toMinutes();
             long diasCobrados = (long) Math.ceil(minutosTotais / 1440.0);

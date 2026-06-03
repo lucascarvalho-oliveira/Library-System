@@ -19,8 +19,10 @@ public class AutorRepository {
             stmt.executeUpdate();
 
             try(ResultSet rs = stmt.getGeneratedKeys()){
-                int idResgatado = rs.getInt(1);
-                autor.setIdAutor(idResgatado);
+                if(rs.next()) {
+                    int idResgatado = rs.getInt(1);
+                    autor.setIdAutor(idResgatado);
+                }
             }
         }catch (SQLException e){
             System.out.println("\nErro ao salvar autor!\n");
