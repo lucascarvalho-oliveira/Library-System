@@ -31,6 +31,14 @@ public class Livro {
         return editora;
     }
 
+    public Genero getGenero() {
+        return genero;
+    }
+
+    public Autor getAutor() {
+        return autor;
+    }
+
     public int getIdLivro() {
         return idLivro;
     }
@@ -38,4 +46,5 @@ public class Livro {
     public void setIdLivro(int idLivro) {
         this.idLivro = idLivro;
     }
+
 }
