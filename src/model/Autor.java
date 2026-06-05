@@ -12,7 +12,9 @@ public class Autor {
 
     private List<Livro> livros;
 
-    public Autor(int idAutor, String nome, String nacionalidade, LocalDate dataNascimento) {
+    public Autor(){};
+
+    public Autor(String nome, String nacionalidade, LocalDate dataNascimento) {
         this.idAutor = idAutor;
         this.nome = nome;
         this.nacionalidade = nacionalidade;
@@ -23,6 +25,10 @@ public class Autor {
 
     public String getNome() {
         return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public String getNacionalidade() {

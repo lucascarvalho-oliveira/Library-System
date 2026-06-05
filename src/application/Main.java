@@ -14,12 +14,13 @@ public class Main {
         do {
             System.out.println("============ Library System ============");
             System.out.println("1 - Cadastrar usuário.");
-            System.out.println("2 - Cadastrar livro.");
-            System.out.println("3 - Consultar livro.");
-            System.out.println("4 - Empréstimo de livro.");
-            System.out.println("5 - Histórico de usuário.");
-            System.out.println("6 - Histórico de livro.");
-            System.out.println("7 - Fechar sistema.");
+            System.out.println("2 - cadastrar autor.");
+            System.out.println("3 - Cadastrar livro.");
+            System.out.println("4 - Consultar livro.");
+            System.out.println("5 - Empréstimo de livro.");
+            System.out.println("6 - Histórico de usuário.");
+            System.out.println("7 - Histórico de livro.");
+            System.out.println("8 - Fechar sistema.");
             System.out.println("Escolha uma das opções.");
             int menu = sc.nextInt();sc.nextLine();
 
