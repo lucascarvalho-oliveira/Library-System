@@ -27,8 +27,7 @@ public class ExemplarRepository {
                 }
             }
         }catch (SQLException e){
-            System.out.println("\nErro ao salvar exemplar!\n");
-            throw new RuntimeException(e);
+            throw new RuntimeException("Erro ao salvar exemplar", e);
         }
     }
 }

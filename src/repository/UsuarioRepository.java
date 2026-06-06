@@ -15,7 +15,7 @@ public class UsuarioRepository {
         ){
             stmt.setString(1, usuario.getNome());
             stmt.setString(2, usuario.getTelefone());
-            stmt.setObject(3, usuario.getDataNascimento());
+            stmt.setDate(3, Date.valueOf(usuario.getDataNascimento()));
 
             stmt.executeUpdate();
 
@@ -26,8 +26,7 @@ public class UsuarioRepository {
                 }
             }
         }catch (SQLException e){
-            System.out.println("\nErro ao salvar usuário!\n");
-            throw new RuntimeException();
+            throw new RuntimeException("Erro ao salvar usuário", e);
         }
     }
 }

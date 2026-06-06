@@ -2,6 +2,9 @@ package model;
 
 import model.enums.Genero;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Livro {
     private int idLivro;
     private String titulo;
@@ -9,14 +12,14 @@ public class Livro {
     private String editora;
 
     private Genero genero;
-    private Autor autor;
+    private List<Autor> autores;
 
-    public Livro(String titulo, int volume, String editora, Genero genero, Autor autor) {
+    public Livro(String titulo, int volume, String editora, Genero genero) {
         this.titulo = titulo;
         this.volume = volume;
         this.editora = editora;
         this.genero = genero;
-        this.autor = autor;
+        this.autores = new ArrayList<>();
     }
 
     public String getTitulo() {
@@ -35,10 +38,6 @@ public class Livro {
         return genero;
     }
 
-    public Autor getAutor() {
-        return autor;
-    }
-
     public int getIdLivro() {
         return idLivro;
     }
@@ -47,4 +46,11 @@ public class Livro {
         this.idLivro = idLivro;
     }
 
+    public List<Autor> getAutores() {
+        return autores;
+    }
+
+    public void setAutores(List<Autor> autores) {
+        this.autores = autores;
+    }
 }

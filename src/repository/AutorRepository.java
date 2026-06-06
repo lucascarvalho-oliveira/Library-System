@@ -16,7 +16,7 @@ public class AutorRepository {
         ){
             stmt.setString(1, autor.getNome());
             stmt.setString(2, autor.getNacionalidade());
-            stmt.setObject(3, autor.getDataNascimento());
+            stmt.setDate(3, Date.valueOf(autor.getDataNascimento()));
 
             stmt.executeUpdate();
 
@@ -27,8 +27,7 @@ public class AutorRepository {
                 }
             }
         }catch (SQLException e){
-            System.out.println("\nErro ao salvar autor!\n");
-            throw new RuntimeException(e);
+            throw new RuntimeException("Erro ao salvar autor", e);
         }
     }
 

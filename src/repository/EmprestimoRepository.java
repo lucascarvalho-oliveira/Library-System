@@ -14,38 +14,41 @@ public class EmprestimoRepository {
 
         try(Connection conn = new Conexao().conectar()){
             conn.setAutoCommit(false);
+            try {
+                try (PreparedStatement stmtEmp = conn.prepareStatement(sqlEmprestimo, Statement.RETURN_GENERATED_KEYS)) {
+                    stmtEmp.setObject(1, emprestimo.getDataEmprestimo());
+                    stmtEmp.setInt(2, emprestimo.getUsuarios().getIdUsuario());
+                    stmtEmp.setDate(4, Date.valueOf(emprestimo.getDataRetorno()));
+                    stmtEmp.setDate(5, Date.valueOf(emprestimo.getDataEntrega()));
 
-            try(PreparedStatement stmtEmp = conn.prepareStatement(sqlEmprestimo, Statement.RETURN_GENERATED_KEYS)) {
-                stmtEmp.setObject(1, emprestimo.getDataEmprestimo());
-                stmtEmp.setInt(2, emprestimo.getUsuarios().getIdUsuario());
-                stmtEmp.setObject(4, emprestimo.getDataRetorno());
-                stmtEmp.setObject(5, emprestimo.getDataEntrega());
+                    stmtEmp.executeUpdate();
 
-                stmtEmp.executeUpdate();
-
-                try (ResultSet rs = stmtEmp.getGeneratedKeys()) {
-                    if (rs.next()) {
-                        int idGerado = rs.getInt(1);
-                        emprestimo.setIdEmprestimo(idGerado);
+                    try (ResultSet rs = stmtEmp.getGeneratedKeys()) {
+                        if (rs.next()) {
+                            int idGerado = rs.getInt(1);
+                            emprestimo.setIdEmprestimo(idGerado);
+                        }
                     }
                 }
-            }
 
-            try(PreparedStatement stmtItens = conn.prepareStatement(sqlItens)){
-                for (Exemplar exemplar : emprestimo.getExemplares()) {
-                    stmtItens.setInt(1, emprestimo.getIdEmprestimo());
-                    stmtItens.setInt(2, exemplar.getIdExemplar());
+                try (PreparedStatement stmtItens = conn.prepareStatement(sqlItens)) {
+                    for (Exemplar exemplar : emprestimo.getExemplares()) {
+                        stmtItens.setInt(1, emprestimo.getIdEmprestimo());
+                        stmtItens.setInt(2, exemplar.getIdExemplar());
 
-                    stmtItens.addBatch();
+                        stmtItens.addBatch();
+                    }
+                    stmtItens.executeBatch();
                 }
-                stmtItens.executeBatch();
+                conn.commit();
+
+            }catch (SQLException e) {
+                conn.rollback();
+                throw e;
             }
-            conn.commit();
-            System.out.println("\nEmpréstimo e exemplares salvos com sucesso!\n");
 
         }catch (SQLException e){
-            System.out.println("\nErro ao salvar empréstimo!\n");
-            throw new RuntimeException(e);
+            throw new RuntimeException("Erro ao salvar Empréstimo", e);
         }
     }
 
