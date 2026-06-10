@@ -70,6 +70,7 @@ public class EmprestimoRepository {
                 if (rs.next()) {
                     Emprestimo emprestimo = new Emprestimo();
 
+                    emprestimo.setIdEmprestimo(idEmprestimo);
                     emprestimo.setDataEmprestimo(rs.getObject("data_emprestimo", LocalDate.class));
                     emprestimo.setDataRetorno(rs.getObject("data_retorno", LocalDate.class));
                     return emprestimo;
@@ -82,7 +83,7 @@ public class EmprestimoRepository {
     }
 
     public List<EmprestimoDTO> buscarEmprestimo(int id_usuario){
-        String sql = "SELECT e.id_emprestimo, e.data_retorno, ex.patrimonio " +
+        String sql = "SELECT e.id_emprestimo, e.data_emprestimo, e.data_retorno, ex.patrimonio " +
                 "FROM emprestimo e " +
                 "JOIN emprestimo_exemplar ee ON e.id_emprestimo = ee.id_emprestimo" +
                 "JOIN Exemplar eX ON ee.id_exemplar = ex.id_exemplar " +
