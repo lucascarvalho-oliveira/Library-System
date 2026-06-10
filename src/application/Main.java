@@ -30,7 +30,7 @@ public class Main {
             int menu = sc.nextInt();sc.nextLine();
 
             switch (menu){
-                // Cadastrar usuário.
+                // Cadastrar usuário | controller CadastrarUsuarioController.
                 case 1:
                     UsuarioService serviceUsuario = new UsuarioService(repositoryUsuario);
                     CadastrarUsuarioController cadastroUsuario = new CadastrarUsuarioController(serviceUsuario);
@@ -38,7 +38,7 @@ public class Main {
                     cadastroUsuario.cadastro(sc);
                     break;
 
-                // Cadastrar autor.
+                // Cadastrar autor | controller CadastrarAutorController.
                 case 2:
                     AutorService serviceAutor = new AutorService(repositoryAutor);
                     CadastrarAutorController cadastroAutor = new CadastrarAutorController(serviceAutor);
@@ -46,7 +46,7 @@ public class Main {
                     cadastroAutor.CadastrarAutor(sc);
                     break;
 
-                // Cadastrar livro e Consultar livro.
+                // Cadastrar livro e Consultar livro | controller GerenciamentoLivroController.
                 case 3:
                     ExemplarService serviceExemplar = new ExemplarService(repositoryExemplar);
                     LivroService serviceLivro = new LivroService(repositoryLivro);
@@ -55,7 +55,7 @@ public class Main {
                     cadastrarLivro.CadastraLivro(sc);
                     break;
 
-                // Emprestimo de livro.
+                // Emprestimo de livro | controller emprestimoController.
                 case 4:
                     EmprestimoService serviceEmprestimo = new EmprestimoService(repositoryEmprestimo);
                     EmprestimoController emprestimoController = new EmprestimoController(repositoryUsuario, repositoryExemplar, serviceEmprestimo, repositoryEmprestimo);
@@ -63,14 +63,14 @@ public class Main {
                     emprestimoController.emprestimo(sc);
                     break;
 
-                // Histórico.
+                // Histórico | controller EmprestimoController.
                 case 5:
                     HistoricoController historicoController = new HistoricoController(repositoryUsuario, repositoryEmprestimo);
 
                     historicoController.historico(sc);
                     break;
 
-                // Apagar Exemplar.
+                // Apagar Exemplar | controller DeleteExemplarController.
                 case 6:
                     DeleteExemplarController deleteExemplar = new DeleteExemplarController(repositoryExemplar);
 
