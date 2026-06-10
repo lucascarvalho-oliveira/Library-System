@@ -44,6 +44,10 @@ public class Emprestimo {
         return dataEmprestimo;
     }
 
+    public void setDataEmprestimo(LocalDate dataEmprestimo) {
+        this.dataEmprestimo = dataEmprestimo;
+    }
+
     public LocalDate getDataRetorno() {
         return dataRetorno;
     }

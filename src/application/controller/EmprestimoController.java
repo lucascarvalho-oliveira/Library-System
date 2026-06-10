@@ -1,6 +1,7 @@
 package application.controller;
 
 import model.Emprestimo;
+import model.EmprestimoDTO;
 import model.Exemplar;
 import model.Usuario;
 import model.enums.Status;
@@ -9,6 +10,7 @@ import repository.ExemplarRepository;
 import repository.UsuarioRepository;
 import service.EmprestimoService;
 
+import java.sql.SQLOutput;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -118,41 +120,54 @@ public class EmprestimoController {
                     break;
 
                 case 2:
-                    Emprestimo emprestimoDV = null;
-                    try{
-                        emprestimoDV = repositoryEmprestimo.buscarEmprestimo(usuario.getIdUsuario());
-
-                    }catch (RuntimeException e){
-                        System.out.println(e.getMessage());
-                    }
-
-                    emprestimoDV.setDataEntrega(LocalDate.now());
-
+                    List<EmprestimoDTO> encontradoDto = null;
                     try {
-                        serviceEmprestimo.calcularMulta(emprestimoDV);
+                        encontradoDto = repositoryEmprestimo.buscarEmprestimo(usuario.getIdUsuario());
 
-                        List<Integer> patrimonios = repositoryEmprestimo.buscarPatrimonio(emprestimoDV.getIdEmprestimo());
-
-                        for(Integer patrimonio : patrimonios){
-                            repositoryExemplar.atualizarStatus(patrimonio, Status.DISPONIVEL);
-                        }
-
-                    }catch (RuntimeException e){
+                    }catch (RuntimeException e) {
                         System.out.println(e.getMessage());
                         break;
                     }
 
-                    if(emprestimoDV != null) {
-                        if (emprestimoDV.getMulta() == 0.0) {
-                            System.out.println("\nNão ouve multa.");
-                        } else {
-                            System.out.println("\nValor da multa = R$ " + emprestimoDV.getMulta());
-                        }
+                    if(encontradoDto.isEmpty()) {
+                        System.out.println("empréstimo nao encontrado.");
                         break;
-
-                    }else{
-                        System.out.println("Empréstimo nao encontrado.");
                     }
+
+                    System.out.println("\nEmpréstimos ativos:");
+                    for(EmprestimoDTO dto: encontradoDto) {
+                        System.out.println("Id: " + dto.getIdEmprestimo());
+                        System.out.println("Patrimonio: " + dto.getPatrimonio());
+                        System.out.println("Data de empréstimo: " + dto.getDataEmprestimo());
+                        System.out.println("Data de retorno: " + dto.getDataRetorno());
+                    }
+
+                    System.out.println("\nDigite o ID do empréstimo que deseja devolver: ");
+                    int idEscolhido = sc.nextInt();sc.nextLine();
+
+                    Emprestimo emprestimoAchado = repositoryEmprestimo.buscarPorId(idEscolhido);
+
+                    if(emprestimoAchado == null){
+                        System.out.println("Empréstimo não encontrado.");
+                        break;
+                    }
+
+                    emprestimoAchado.setDataEntrega(LocalDate.now());
+
+                    serviceEmprestimo.calcularMulta(emprestimoAchado);
+
+                    List<Integer> patrimonios = repositoryEmprestimo.buscarPatrimonio(emprestimoAchado.getIdEmprestimo());
+
+                    for (Integer patrimonio : patrimonios) {
+                        repositoryExemplar.atualizarStatus(patrimonio, Status.DISPONIVEL);
+                    }
+
+                    if (emprestimoAchado.getMulta() == 0.0) {
+                        System.out.println("\nNão houve multa.");
+                    } else {
+                        System.out.println("\nValor da multa = R$ " + emprestimoAchado.getMulta());
+                    }
+                    break;
 
                 case 3:
                     voltar = true;

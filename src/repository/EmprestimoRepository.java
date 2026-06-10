@@ -2,6 +2,7 @@ package repository;
 
 import database.Conexao;
 import model.Emprestimo;
+import model.EmprestimoDTO;
 import model.Exemplar;
 
 import java.sql.*;
@@ -55,11 +56,39 @@ public class EmprestimoRepository {
         }
     }
 
-    public Emprestimo buscarEmprestimo(int id_usuario){
-        String sql = "SELECT e.data_retorno, e.id_emprestimo " +
-                "FROM emprestimo_exemplar ee " +
-                "JOIN emprestimo e ON ee.id_emprestimo = e.id_emprestimo " +
-                "WHERE e.id_usuario = ?";
+    public Emprestimo buscarPorId(int idEmprestimo) {
+        String sql = "SELECT data_emprestimo, data_retorno " +
+                "FROM emprestimo " +
+                "WHERE id_emprestimo = ?";
+
+        try (Connection conn = new Conexao().conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, idEmprestimo);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    Emprestimo emprestimo = new Emprestimo();
+
+                    emprestimo.setDataEmprestimo(rs.getObject("data_emprestimo", LocalDate.class));
+                    emprestimo.setDataRetorno(rs.getObject("data_retorno", LocalDate.class));
+                    return emprestimo;
+                }
+            }
+        }catch (SQLException e) {
+            throw new RuntimeException("\nErro ao cbuscar empréstimo", e);
+        }
+        return null;
+    }
+
+    public List<EmprestimoDTO> buscarEmprestimo(int id_usuario){
+        String sql = "SELECT e.id_emprestimo, e.data_retorno, ex.patrimonio " +
+                "FROM emprestimo e " +
+                "JOIN emprestimo_exemplar ee ON e.id_emprestimo = ee.id_emprestimo" +
+                "JOIN Exemplar eX ON ee.id_exemplar = ex.id_exemplar " +
+                "WHERE id_usuario = ? AND data_entrega IS NULL";
+
+        List<EmprestimoDTO> emprestimos = new ArrayList<>();
 
         try(Connection conn = new Conexao().conectar();
             PreparedStatement stmt = conn.prepareStatement(sql)
@@ -68,17 +97,19 @@ public class EmprestimoRepository {
 
             ResultSet rs = stmt.executeQuery();
 
-            if(rs.next()){
-                Emprestimo emprestimo = new Emprestimo();
-                emprestimo.setDataRetorno(rs.getObject("data_retorno", LocalDate.class));
-                emprestimo.setIdEmprestimo(rs.getInt("id_emprestimo"));
+            while(rs.next()){
+                EmprestimoDTO dto = new EmprestimoDTO();
+                dto.setIdEmprestimo(rs.getInt("id_emprestimo"));
+                dto.setPatrimonio(rs.getInt("patrimonio"));
+                dto.setDataEmprestimo(rs.getObject("data_emprestimo", LocalDate.class));
+                dto.setDataRetorno(rs.getObject("data_retorno", LocalDate.class));
 
-                return emprestimo;
+                emprestimos.add(dto);
             }
         }catch (SQLException e) {
             throw new RuntimeException("\nErro ao consultar empréstimo", e);
         }
-        return null;
+        return emprestimos;
     }
 
     public List<Integer> buscarPatrimonio(int idEmprestimo) {
@@ -146,7 +177,14 @@ public class EmprestimoRepository {
                 System.out.println("\nUsuário: " + rs.getString("nome"));
                 System.out.println("Data Empréstimo: " + rs.getDate("data_emprestimo").toLocalDate().format(formatador));
                 System.out.println("Data do retorno: " + rs.getDate("data_retorno").toLocalDate().format(formatador));
-                System.out.println("Data entrega: " + rs.getDate("data_entrega").toLocalDate().format(formatador));
+
+                Date dataEntrega = rs.getDate("data_entrega");
+                if(dataEntrega != null) {
+                    System.out.println("Data entrega: " + dataEntrega.toLocalDate().format(formatador));
+
+                }else{
+                    System.out.println("Data entrega: Não devolvido");
+                }
                 System.out.println("--------------------");
             }
         }catch (SQLException e) {
@@ -179,7 +217,14 @@ public class EmprestimoRepository {
                 System.out.println("Patrimônio: " + rs.getInt("patrimonio"));
                 System.out.println("Data empréstimo: " + rs.getDate("data_emprestimo").toLocalDate().format(formatador));
                 System.out.println("Data do retorno: " + rs.getDate("data_retorno").toLocalDate().format(formatador));
-                System.out.println("Data entrega: " + rs.getDate("data_entrega").toLocalDate().format(formatador));
+
+                Date dataEntrega = rs.getDate("data_entrega");
+                if(dataEntrega != null) {
+                    System.out.println("Data entrega: " + rs.getDate("data_entrega").toLocalDate().format(formatador));
+
+                }else{
+                    System.out.println("Data entrega: Não devolvido");
+                }
                 System.out.println("Multa: R$ " + rs.getDouble("multa"));
                 System.out.println("--------------------");
             }

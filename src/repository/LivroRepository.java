@@ -101,7 +101,7 @@ public class LivroRepository {
 
             ResultSet rs = stmt.executeQuery();
 
-            boolean livro = false;
+            boolean livro = true;
             while (rs.next()) {
                 if(!livro) {
                     System.out.println("\nTítulo: " + rs.getString("titulo"));
