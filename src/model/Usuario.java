@@ -12,6 +12,8 @@ public class Usuario {
 
     private List<Emprestimo> emprestimos;
 
+    public Usuario(){}
+
     public Usuario(String nome, String telefone, LocalDate dataNascimento) {
         this.nome = nome;
         this.telefone = telefone;

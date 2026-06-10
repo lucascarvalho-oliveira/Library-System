@@ -24,10 +24,12 @@ public class AutorRepository {
                 if(rs.next()) {
                     int idResgatado = rs.getInt(1);
                     autor.setIdAutor(idResgatado);
+
+                    System.out.println("\nAutor salvo com sucesso!\n");
                 }
             }
         }catch (SQLException e){
-            throw new RuntimeException("Erro ao salvar autor", e);
+            throw new RuntimeException("\nErro ao salvar autor", e);
         }
     }
 
@@ -52,7 +54,7 @@ public class AutorRepository {
                 autores.add(autor);
             }
         }catch (SQLException e){
-            System.out.println("autor nao encontrada!");
+            System.out.println("\nAutor nao encontrada!");
             throw new RuntimeException(e);
         }
         return autores;

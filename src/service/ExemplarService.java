@@ -14,10 +14,15 @@ public class ExemplarService {
         if(exemplar.getLocalizacao() == null || exemplar.getLocalizacao().isBlank()){
             throw new IllegalArgumentException("O exemplar precisa ter uma localização");
         }
-        if(exemplar.getIdPatrimonio() == 0){
+        if(exemplar.getPatrimonio() == 0){
             throw new IllegalArgumentException("O patrimonio de um livro precisa começar em 1.");
         }
 
-        repositoryExemplar.salvarExemplar(exemplar);
+        try {
+            repositoryExemplar.salvarExemplar(exemplar);
+
+        }catch (RuntimeException e){
+            System.out.println(e.getMessage());
+        }
     }
 }

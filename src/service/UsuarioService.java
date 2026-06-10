@@ -21,6 +21,11 @@ public class UsuarioService {
             throw new IllegalArgumentException("Data de nascimento de usuário incorreto.");
         }
 
-        repositoryUsuario.salvarUsuario(usuario);
+        try {
+            repositoryUsuario.salvarUsuario(usuario);
+
+        }catch (RuntimeException e){
+            System.out.println(e.getMessage());
+        }
     }
 }

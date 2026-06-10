@@ -14,6 +14,8 @@ public class Livro {
     private Genero genero;
     private List<Autor> autores;
 
+    public Livro(){}
+
     public Livro(String titulo, int volume, String editora, Genero genero) {
         this.titulo = titulo;
         this.volume = volume;
@@ -26,16 +28,32 @@ public class Livro {
         return titulo;
     }
 
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
+
     public int getVolume() {
         return volume;
+    }
+
+    public void setVolume(int volume) {
+        this.volume = volume;
     }
 
     public String getEditora() {
         return editora;
     }
 
+    public void setEditora(String editora) {
+        this.editora = editora;
+    }
+
     public Genero getGenero() {
         return genero;
+    }
+
+    public void setGenero(Genero genero) {
+        this.genero = genero;
     }
 
     public int getIdLivro() {

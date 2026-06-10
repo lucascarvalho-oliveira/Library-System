@@ -18,11 +18,11 @@ public class CadastrarAutorController {
     public void CadastrarAutor(Scanner sc){
         DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-        System.out.println("Informe o nome do autor.");
+        System.out.println("\nInforme o nome do autor.");
         String nome = sc.nextLine();
         System.out.println("Informe a nacionalidade do autor.");
         String nacionalidade = sc.nextLine();
-        System.out.println("informe a data de nascimento do auto.");
+        System.out.println("informe a data de nascimento do auto (no formato DD/MM/AAAA).");
         String data = sc.nextLine();
 
         LocalDate dataConvertida = null;

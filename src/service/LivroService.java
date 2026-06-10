@@ -21,6 +21,11 @@ public class LivroService {
             throw new IllegalArgumentException("Editora de livro incorreto.");
         }
 
-        repositoryLivro.salvarLivro(livro);
+        try {
+            repositoryLivro.salvarLivro(livro);
+
+        }catch (RuntimeException e){
+            System.out.println(e.getMessage());
+        }
     }
 }

@@ -14,6 +14,8 @@ public class Emprestimo {
     private Usuario usuarios;
     private List<Exemplar> exemplares;
 
+    public Emprestimo(){}
+
     public Emprestimo(LocalDate dataEmprestimo, Usuario usuario){
         this.dataEmprestimo = dataEmprestimo;
         this.dataRetorno = dataEmprestimo.plusDays(10);
@@ -22,12 +24,12 @@ public class Emprestimo {
         this.exemplares = new ArrayList<>();
     }
 
-    public void adicionarExemplar(Exemplar exemplar){
-        this.exemplares.add(exemplar);
-    }
-
     public List<Exemplar> getExemplares() {
         return exemplares;
+    }
+
+    public void setExemplares(List<Exemplar> exemplares) {
+        this.exemplares = exemplares;
     }
 
     public int getIdEmprestimo() {
@@ -46,12 +48,16 @@ public class Emprestimo {
         return dataRetorno;
     }
 
+    public void setDataEntrega(LocalDate dataEntrega) {
+        this.dataEntrega = dataEntrega;
+    }
+
     public LocalDate getDataEntrega() {
         return dataEntrega;
     }
 
-    public void setDataEntreque(LocalDate dataEntreque){
-        this.dataEntrega = dataEntreque;
+    public void setDataRetorno(LocalDate dataRetorno) {
+        this.dataRetorno = dataRetorno;
     }
 
     public double getMulta() {

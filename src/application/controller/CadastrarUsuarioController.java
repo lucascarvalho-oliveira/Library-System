@@ -18,11 +18,11 @@ public class CadastrarUsuarioController {
     public void cadastro(Scanner sc){
         DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-        System.out.println("Informe o nome:");
+        System.out.println("\nInforme o nome.");
         String nome = sc.nextLine();
-        System.out.println("Informe o telefone (exemplo (DD)9.XXXX-XXXX):");
+        System.out.println("Informe o telefone (exemplo (DD)9.XXXX-XXXX).");
         String telefone = sc.nextLine();
-        System.out.println("Informe a data de nascimento (no formato DD/MM/AAAA):");
+        System.out.println("Informe a data de nascimento (no formato DD/MM/AAAA).");
         String data = sc.nextLine();
 
         LocalDate dataConvertida = null;

@@ -10,11 +10,13 @@ public class Exemplar {
     private Livro livro;
     private Status status;
 
-    public Exemplar(int idPatrimonio, String localizacao, Livro livro, Status status) {
-        this.patrimonio = idPatrimonio;
+    public Exemplar(){};
+
+    public Exemplar(int patrimonio, String localizacao, Livro livro) {
+        this.patrimonio = patrimonio;
         this.localizacao = localizacao;
         this.livro = livro;
-        this.status = status;
+        this.status = Status.DISPONIVEL;
     }
 
     public int getIdExemplar() {
@@ -33,11 +35,23 @@ public class Exemplar {
         return livro;
     }
 
+    public void setLivro(Livro livro) {
+        this.livro = livro;
+    }
+
     public int getPatrimonio() {
         return patrimonio;
     }
 
+    public void setPatrimonio(int patrimonio) {
+        this.patrimonio = patrimonio;
+    }
+
     public Status getStatus() {
         return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 }

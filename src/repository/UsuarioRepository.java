@@ -23,10 +23,38 @@ public class UsuarioRepository {
                 if(rs.next()){
                     int idGerado = rs.getInt(1);
                     usuario.setIdUsuario(idGerado);
+
+                    System.out.println("\nUsuário salvo com sucesso!\n");
                 }
             }
         }catch (SQLException e){
-            throw new RuntimeException("Erro ao salvar usuário", e);
+            throw new RuntimeException("\nErro ao salvar usuário", e);
         }
     }
+
+    public Usuario buscarUsuario(String nome, String telefone){
+        String sql = "SELECT id_usuario FROM usuario WHERE nome = ? AND telefone = ?";
+
+        try(Connection conn = new Conexao().conectar();
+            PreparedStatement stmt = conn.prepareStatement(sql)
+        ){
+            stmt.setString(1, nome);
+            stmt.setString(2, telefone);
+
+            ResultSet rs = stmt.executeQuery();
+
+            if(rs.next()){
+                Usuario usuario = new Usuario();
+
+                usuario.setIdUsuario(rs.getInt("id_usuario"));
+
+                return usuario;
+            }
+
+        }catch (SQLException e){
+            throw new RuntimeException("\nErro ao buscar usuário", e);
+        }
+        return null;
+    }
+
 }

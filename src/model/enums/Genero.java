@@ -7,7 +7,8 @@ public enum Genero {
     COMEDIA("Comedia"),
     SUSPENSE("Suspense"),
     DRAMA("Drama"),
-    TERROR("Terror");
+    TERROR("Terror"),
+    FANTASIA("Fantasia");
 
     private String descricao;
 

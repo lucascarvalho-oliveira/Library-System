@@ -3,8 +3,12 @@ package repository;
 import database.Conexao;
 import model.Autor;
 import model.Livro;
+import model.enums.Genero;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.LinkedBlockingDeque;
 
 public class LivroRepository {
 
@@ -28,6 +32,8 @@ public class LivroRepository {
                         if (rs.next()) {
                             int idGerado = rs.getInt(1);
                             livro.setIdLivro(idGerado);
+
+                            System.out.println("\nLivro salvo com sucesso!\n");
                         }
                     }
 
@@ -50,7 +56,66 @@ public class LivroRepository {
             }
 
         }catch (SQLException e){
-            throw new RuntimeException("Erro ao salvar livro", e);
+            throw new RuntimeException("\nErro ao salvar livro", e);
+        }
+    }
+
+    public List<Livro> buscarLivroList(String titulo){
+        String sql = "SELECT titulo, volume, id_livro FROM livro WHERE titulo LIKE ?";
+
+        List<Livro> encontrado = new ArrayList<>();
+
+        try(Connection conn = new Conexao().conectar();
+            PreparedStatement stmt = conn.prepareStatement(sql);
+        ){
+            stmt.setString(1,"%" + titulo + "%");
+
+            ResultSet rs = stmt.executeQuery();
+
+            while(rs.next()){
+                Livro livro = new Livro();
+
+                livro.setTitulo(rs.getString("titulo"));
+                livro.setVolume(rs.getInt("volume"));
+                livro.setIdLivro(rs.getInt("id_livro"));
+
+                encontrado.add(livro);
+            }
+
+        }catch (SQLException e){
+            throw new RuntimeException("\nErro ao buscar livro", e);
+        }
+        return encontrado;
+    }
+
+    public void consultarLivro(int id_livro){
+        String sql = "SELECT l.*, a.nome FROM livro_autor la " +
+                "JOIN livro l ON la.id_livro = l.id_livro " +
+                "JOIN autor a ON la.id_autor = a.id_autor " +
+                "WHERE l.id_livro = ?";
+
+        try(Connection conn = new Conexao().conectar();
+            PreparedStatement stmt = conn.prepareStatement(sql);
+        ){
+            stmt.setInt(1, id_livro);
+
+            ResultSet rs = stmt.executeQuery();
+
+            boolean livro = false;
+            while (rs.next()) {
+                if(!livro) {
+                    System.out.println("\nTítulo: " + rs.getString("titulo"));
+                    System.out.println("Volume: " + rs.getInt("volume"));
+                    System.out.println("Editora: " + rs.getString("editora"));
+                    System.out.println("Gênero: " + rs.getString("genero"));
+                    System.out.println("Autores:");
+                    livro = false;
+                }
+                System.out.println("- " + rs.getString("nome"));
+            }
+
+        }catch (SQLException e){
+            throw new RuntimeException("\nErro ao consultar livro.", e);
         }
     }
 }

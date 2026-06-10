@@ -3,7 +3,7 @@ package service;
 import model.Emprestimo;
 import repository.EmprestimoRepository;
 
-import java.time.Duration;
+import java.time.temporal.ChronoUnit;
 
 public class EmprestimoService {
     private EmprestimoRepository repositoryEmprestimo;
@@ -20,21 +20,31 @@ public class EmprestimoService {
             throw new IllegalArgumentException("Data de retorno incorreta.");
         }
 
-        repositoryEmprestimo.salvarEmprestimo(emprestimo);
+        try {
+            repositoryEmprestimo.salvarEmprestimo(emprestimo);
+
+        }catch (RuntimeException e){
+            System.out.println(e.getMessage());
+        }
     }
 
     public void calcularMulta(Emprestimo emprestimo){
-        if(emprestimo.getDataEntrega().isEqual(emprestimo.getDataRetorno())){
+        if(!emprestimo.getDataEntrega().isAfter(emprestimo.getDataRetorno())){
             emprestimo.setMulta(0.0);
         }else{
-            Duration duracao = Duration.between(emprestimo.getDataRetorno(), emprestimo.getDataEntrega());
+            long diasAtraso = ChronoUnit.DAYS.between(
+                    emprestimo.getDataRetorno(),
+                    emprestimo.getDataEntrega()
+            );
 
-            long minutosTotais = duracao.toMinutes();
-            long diasCobrados = (long) Math.ceil(minutosTotais / 1440.0);
-
-            emprestimo.setMulta(diasCobrados * 2.0);
+            emprestimo.setMulta(diasAtraso * 2.0);
         }
 
-        repositoryEmprestimo.salvarMulta(emprestimo);
+        try {
+            repositoryEmprestimo.updateEmprestimo(emprestimo);
+
+        }catch (RuntimeException e){
+            System.out.println(e.getMessage());
+        }
     }
 }

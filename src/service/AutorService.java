@@ -21,6 +21,11 @@ public class AutorService {
             throw new IllegalArgumentException("Data de nascimento do autor incorreta.");
         }
 
-        repositoryAutor.salvarAutor(autor);
+        try {
+            repositoryAutor.salvarAutor(autor);
+
+        }catch (RuntimeException e){
+            System.out.println(e.getMessage());
+        }
     }
 }
