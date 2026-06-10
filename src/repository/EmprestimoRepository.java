@@ -6,6 +6,7 @@ import model.Exemplar;
 
 import java.sql.*;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,7 +56,10 @@ public class EmprestimoRepository {
     }
 
     public Emprestimo buscarEmprestimo(int id_usuario){
-        String sql = "SELECT data_retorno, id_emprestimo FROM emprestimo WHERE id_usuario = ?";
+        String sql = "SELECT e.data_retorno, e.id_emprestimo " +
+                "FROM emprestimo_exemplar ee " +
+                "JOIN emprestimo e ON ee.id_emprestimo = e.id_emprestimo " +
+                "WHERE e.id_usuario = ?";
 
         try(Connection conn = new Conexao().conectar();
             PreparedStatement stmt = conn.prepareStatement(sql)
@@ -129,6 +133,8 @@ public class EmprestimoRepository {
                 "WHERE ex.patrimonio = ? " +
                 "ORDER BY e.data_emprestimo DESC";
 
+        DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
         try(Connection conn = new Conexao().conectar();
             PreparedStatement stmt = conn.prepareStatement(sql)
         ){
@@ -137,10 +143,10 @@ public class EmprestimoRepository {
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-                System.out.println("Usuário: " + rs.getString("nome"));
-                System.out.println("Data Empréstimo: " + rs.getDate("data_emprestimo"));
-                System.out.println("Data do retorno: " + rs.getDate("data_retorno"));
-                System.out.println("Data entrega: " + rs.getDate("data_entrega"));
+                System.out.println("\nUsuário: " + rs.getString("nome"));
+                System.out.println("Data Empréstimo: " + rs.getDate("data_emprestimo").toLocalDate().format(formatador));
+                System.out.println("Data do retorno: " + rs.getDate("data_retorno").toLocalDate().format(formatador));
+                System.out.println("Data entrega: " + rs.getDate("data_entrega").toLocalDate().format(formatador));
                 System.out.println("--------------------");
             }
         }catch (SQLException e) {
@@ -151,11 +157,13 @@ public class EmprestimoRepository {
     public void historicoUsuario(int id_usuario){
         String sql = "SELECT  l.titulo, ex.patrimonio, e.data_emprestimo, e.data_entrega, e.data_retorno, e.multa " +
                 "FROM emprestimo e " +
-                "JOIN emprestimo_exemplar ee ON e.id_emprestimo = ee.id_emprestimo " +
-                "JOIN exemplar ex ON ee.id_exemplar = ex.id_exemplar " +
-                "JOIN livro l ON ex.id_livro = l.id_livro " +
+                "LEFT JOIN emprestimo_exemplar ee ON e.id_emprestimo = ee.id_emprestimo " +
+                "LEFT JOIN exemplar ex ON ee.id_exemplar = ex.id_exemplar " +
+                "LEFT JOIN livro l ON ex.id_livro = l.id_livro " +
                 "Where e.id_usuario = ? " +
                 "ORDER BY e.data_emprestimo DESC";
+
+        DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
         try(Connection conn = new Conexao().conectar();
             PreparedStatement stmt = conn.prepareStatement(sql)
@@ -167,11 +175,11 @@ public class EmprestimoRepository {
             boolean encontrou = false;
             while(rs.next()) {
                 encontrou = true;
-                System.out.println("Título: " + rs.getString("titulo"));
+                System.out.println("\nTítulo: " + rs.getString("titulo"));
                 System.out.println("Patrimônio: " + rs.getInt("patrimonio"));
-                System.out.println("Data empréstimo: " + rs.getDate("data_emprestimo"));
-                System.out.println("Data do retorno: " + rs.getDate("data_retorno"));
-                System.out.println("Data entrega: " + rs.getDate("data_entrega"));
+                System.out.println("Data empréstimo: " + rs.getDate("data_emprestimo").toLocalDate().format(formatador));
+                System.out.println("Data do retorno: " + rs.getDate("data_retorno").toLocalDate().format(formatador));
+                System.out.println("Data entrega: " + rs.getDate("data_entrega").toLocalDate().format(formatador));
                 System.out.println("Multa: R$ " + rs.getDouble("multa"));
                 System.out.println("--------------------");
             }

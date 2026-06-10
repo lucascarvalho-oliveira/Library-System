@@ -32,7 +32,7 @@ public class EmprestimoController {
         do{
             System.out.println("\nInforme o nome do usuário");
             String nome = sc.nextLine();
-            System.out.println("Informe o telefone do usuário (exemplo (DD)9.XXXX-XXXX):");
+            System.out.println("Informe o telefone do usuário exemplo (DD)9.XXXX-XXXX):");
             String telefone = sc.nextLine();
 
             Usuario usuario = null;
@@ -46,7 +46,7 @@ public class EmprestimoController {
             }
 
             if(usuario == null){
-                System.out.println("Usuário não encontrado.");
+                System.out.println("\nUsuário não encontrado.\n");
                 return;
             }
 
@@ -62,7 +62,7 @@ public class EmprestimoController {
 
                     List<Exemplar> exemplares = new ArrayList<>();
                     while(true){
-                        System.out.println("\ninforme o patrimonio do livro");
+                        System.out.println("\nInforme o patrimonio do livro");
                         int patrimonio = sc.nextInt();sc.nextLine();
 
                         Exemplar exemplarEncontrado = null;
@@ -82,6 +82,10 @@ public class EmprestimoController {
 
                         if(statusLivro == Status.EMPRESTADO){
                             System.out.println("Exemplar emprestado!");
+                            return;
+                        }
+                        if(statusLivro == Status.INATIVO){
+                            System.out.println("Livro inativo!");
                             return;
                         }
 
@@ -130,10 +134,7 @@ public class EmprestimoController {
                         List<Integer> patrimonios = repositoryEmprestimo.buscarPatrimonio(emprestimoDV.getIdEmprestimo());
 
                         for(Integer patrimonio : patrimonios){
-                            repositoryExemplar.atualizarStatus(
-                                    patrimonio,
-                                    Status.DISPONIVEL
-                            );
+                            repositoryExemplar.atualizarStatus(patrimonio, Status.DISPONIVEL);
                         }
 
                     }catch (RuntimeException e){
@@ -141,13 +142,17 @@ public class EmprestimoController {
                         break;
                     }
 
+                    if(emprestimoDV != null) {
+                        if (emprestimoDV.getMulta() == 0.0) {
+                            System.out.println("\nNão ouve multa.");
+                        } else {
+                            System.out.println("\nValor da multa = R$ " + emprestimoDV.getMulta());
+                        }
+                        break;
 
-                    if(emprestimoDV.getMulta() == 0.0){
-                        System.out.println("\nNão ouve multa.");
                     }else{
-                        System.out.println("\nValor da multa = R$ " + emprestimoDV.getMulta());
+                        System.out.println("Empréstimo nao encontrado.");
                     }
-                    break;
 
                 case 3:
                     voltar = true;

@@ -84,23 +84,17 @@ public class ExemplarRepository {
     }
 
     public void apagarExemplar(int id_exemplar){
-        String sql = "DELETE FROM exemplar WHERE id_exemplar = ?";
+        String sql = "UPDATE exemplar SET status = 'INATIVO' WHERE id_exemplar = ?";
 
         try(Connection conn = new Conexao().conectar();
             PreparedStatement stmt = conn.prepareStatement(sql)
         ){
             stmt.setInt(1, id_exemplar);
 
-            int linhaAfetada = stmt.executeUpdate();
-
-            if(linhaAfetada > 1){
-                System.out.println("Exemplar removido com sucesso!");
-            }else{
-                System.out.println("Nenhum exemplar encontrado com esse ID.");
-            }
+            stmt.executeUpdate();
 
         }catch (SQLException e){
-            throw new RuntimeException("\nErro ao apagar exemplar", e);
+            throw new RuntimeException("\nErro ao inativar exemplar", e);
         }
     }
 

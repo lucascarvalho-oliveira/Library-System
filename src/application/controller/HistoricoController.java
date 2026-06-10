@@ -43,7 +43,7 @@ public class HistoricoController {
                     break;
 
                 case 2:
-                    System.out.println("informe o patrimonio do livro:");
+                    System.out.println("\nInforme o patrimonio do livro:");
                     int patrimonio = sc.nextInt(); sc.nextLine();
 
                     repositoryEmprestimo.historicoLivro(patrimonio);
@@ -51,6 +51,7 @@ public class HistoricoController {
 
                 case 3:
                     voltar = true;
+                    System.out.println();
                     break;
 
                 default:

@@ -14,7 +14,7 @@ public class DeleteExemplarController {
 
     public void deleteExemplar(Scanner sc){
         while (true) {
-            System.out.println("Informe o patrimonio do exemplar.");
+            System.out.println("\nInforme o patrimonio do exemplar.");
             int patrimonio = sc.nextInt();sc.nextLine();
 
             Exemplar achado = repositoryExemplar.buscarExemplar(patrimonio);
@@ -25,6 +25,13 @@ public class DeleteExemplarController {
             }
 
             repositoryExemplar.apagarExemplar(achado.getIdExemplar());
+
+            System.out.println("Deseja apagar mais algum exemplar (s/n).");
+            String escolha = sc.nextLine();
+
+            if(escolha.equalsIgnoreCase("n")){
+                break;
+            }
         }
     }
 }
