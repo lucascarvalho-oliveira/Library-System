@@ -103,7 +103,7 @@ public class LivroRepository {
 
             boolean livro = true;
             while (rs.next()) {
-                if(!livro) {
+                if(livro) {
                     System.out.println("\nTítulo: " + rs.getString("titulo"));
                     System.out.println("Volume: " + rs.getInt("volume"));
                     System.out.println("Editora: " + rs.getString("editora"));
